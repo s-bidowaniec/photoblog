@@ -4,7 +4,10 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "test": "jest --watch"
+    "test": "jest",
+    "docker-dev": "docker-compose up --build --force-recreate",
+    "docker-test": "docker-compose -f docker-compose.test.yml up --build --force-recreate",
+    "docker-prod": "docker-compose -f docker-compose.production.yml up --build --force-recreate"
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.5",
