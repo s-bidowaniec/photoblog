@@ -19,18 +19,22 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /dock
+
 COPY tsconfig.json next.config.mjs package.json /dock/
+
 COPY app /dock/app
 COPY public /dock/public
-COPY lib /lib
+COPY lib /dock/lib
 
-# Install Next.js globally
-RUN npm install -g next
+RUN npm install --omit=dev
+#RUN npm install typescript @types/node
 RUN npm run build
 
 # Production image
 FROM node:18-alpine AS runner
 WORKDIR /dock
+COPY tsconfig.json next.config.mjs package.json ./
+RUN npm install next
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
@@ -38,9 +42,8 @@ RUN addgroup --system --gid 1001 nodejs \
     && adduser --system --uid 1001 nextjs
 
 COPY --from=builder /dock/public ./public
-COPY --from=builder --chown=nextjs:nodejs /dock/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /dock/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /dock/.next ./.next
 
 USER nextjs
 
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start"]
