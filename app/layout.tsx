@@ -15,7 +15,8 @@ export default function RootLayout(props: React.PropsWithChildren) {
             <Nav />
 
             <header className={styles.header}>
-              <img src="/logo.svg" className={styles.logo} alt="logo" />
+              {/* <img src="/logo.svg" className={styles.logo} alt="logo" /> */}
+              <h1>Next.js Starter Kit</h1>
             </header>
 
             <main className={styles.main}>{props.children}</main>

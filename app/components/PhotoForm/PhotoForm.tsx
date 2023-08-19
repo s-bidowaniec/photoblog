@@ -5,13 +5,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 type FormValues = {
-  firstName: string;
-  lastName: string;
+  title: string;
+  category: string;
+  description: string;
+  image: string;
 };
 
 const schema = yup.object().shape({
-  firstName: yup.string().required('First name is required'),
-  lastName: yup.string().required('Last name is required'),
+  title: yup.string().required('Title is required'),
+  category: yup.string().required('Category is required'),
+  description: yup.string().required('Description is required'),
+  image: yup.string().required('Image is required'),
 });
 
 export default function PhotoForm(){
@@ -25,18 +29,30 @@ export default function PhotoForm(){
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
+    
   };
 
   return (
 
     <form onSubmit={handleSubmit(onSubmit)} className={styles.column}>
-      {/* Form fields */}
-      <input type="text" {...register('firstName')} className='flex'/>
-      {errors.firstName && <span>{errors.firstName.message}</span>}
-      <input type="text" {...register('lastName')} className='flex'/>
-      {errors.lastName && <span>{errors.lastName.message}</span>}
+      {/* Form fields to add new photo */}
+      <h2>Add new photo</h2>
+      <label htmlFor="title">Title</label>
+      <input type="text" {...register('title')} className='flex'/>
+      {errors.title && <span>{errors.title.message}</span>}
+      <label htmlFor="category">Category</label>
+      <input type="text" {...register('category')} className='flex'/>
+      {errors.category && <span>{errors.category.message}</span>}
+      <label htmlFor="description">Description</label>
+      <input type="text" {...register('description')} className='flex'/>
+      {errors.description && <span>{errors.description.message}</span>}
+      <label htmlFor="image">Image</label>
+      <input type='file' {...register('image')} className='flex'/>
+      {errors.image && <span>{errors.image.message}</span>}
+
+      {/* Submit button */}
       <button type="submit" className='flex'>Submit</button>
     </form>
 
   );
-};
+}
